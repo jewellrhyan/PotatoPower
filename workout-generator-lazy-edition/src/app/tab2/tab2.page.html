@@ -8,7 +8,9 @@
   <ion-datetime [showDefaultButtons]="true" presentation = "date"(ionChange)="handleChange($event)" (click)="datetime.confirm()" #datetime>
     <ion-buttons slot="buttons">
       <ion-button id = "open-modal"color="primary" (click)="datetime.confirm()">Add Event</ion-button>
+      <ion-button color="primary" (click)="clear_day()">Clear day</ion-button>
     </ion-buttons>
+    
   </ion-datetime>
 
   <ion-modal trigger="open-modal" (willDismiss)="onWillDismiss($event)">
@@ -26,7 +28,7 @@
       </ion-header>
       <ion-content class="ion-padding">
         <ion-item>
-          <ion-label position="stacked">Enter description of activty</ion-label>
+          <ion-label position="stacked">Enter muscle group</ion-label>
           <ion-input type="text" placeholder="Description" [(ngModel)]="name"></ion-input>
           <ion-label position="stacked">Enter start time of activity</ion-label>
           <ion-input type="time" placeholder="datetime-local" [(ngModel)]="starttime" ></ion-input>
@@ -64,12 +66,12 @@
   <ion-list *ngFor="let user of day_schedule; let i = index">
     <ion-card>
       <ion-card-header>
-        <ion-card-title>Card Title</ion-card-title>
-        <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
+        <ion-card-title>{{user['event_name']}}</ion-card-title>
+        <ion-card-subtitle>{{user['start_time']}} to {{user['end_time']}}</ion-card-subtitle>
     </ion-card-header>
   
     <ion-card-content>
-      {{user['event_name']}}
+      {{user['start_time']}}
     </ion-card-content>
     </ion-card>
    </ion-list>

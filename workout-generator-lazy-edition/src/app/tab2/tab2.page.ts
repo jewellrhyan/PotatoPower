@@ -1,10 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, Injectable } from '@angular/core';
 import { IonModal } from '@ionic/angular';
 import { ViewChild } from '@angular/core'
 import { OverlayEventDetail } from '@ionic/core/components';
 
 import { format, parseISO } from 'date-fns';
 import { Storage } from '@ionic/storage-angular';
+import { BrowserModule } from '@angular/platform-browser';
+import { HttpClient, HttpClientModule, HttpHeaders } from '@angular/common/http';
+import { Preferences } from '@capacitor/preferences';
+
 
 
 @Component({
@@ -12,6 +16,7 @@ import { Storage } from '@ionic/storage-angular';
   templateUrl: 'tab2.page.html',
   styleUrls: ['tab2.page.scss']
 })
+
 
 export class Tab2Page {
   logs: string[] = []; 
@@ -26,12 +31,16 @@ export class Tab2Page {
   
   
   
-  constructor(private storage: Storage) {
+
+  constructor(private storage: Storage,private http: HttpClient) {
   }
 
   async ngOnInit() {
     // If using a custom driver:
     // await this.storage.defineDriver(MyCustomDriver)
+
+    
+    
     await this.storage.create();
   }
 
@@ -43,7 +52,7 @@ export class Tab2Page {
     this.modal.dismiss([this.name,this.starttime,this.date], 'confirm');
     const formattedDate = format(parseISO(this.date), 'MMM d, yyyy');
     let stuff2 = await this.storage.get(formattedDate)
-    let event1= new event(this.name,this.starttime)
+    let event1= new event(this.name,this.starttime,this.endtime)
     if(stuff2==null){
       await this.storage.set(formattedDate,[event1])
     }
@@ -51,11 +60,13 @@ export class Tab2Page {
       stuff2.push(event1)
       await this.storage.set(formattedDate,stuff2)
     }
-    //this.storage.set(formattedString,[1,2,3])
     this.day_schedule = stuff2
+    
     console.log(stuff2) 
     
-
+    let headers = new HttpHeaders({'X-Api-Key': 'bITnT64Du69uoqnCVVs4Pw==Tlcq3HrHFPA3ZUy5'});
+    this.http.get<any>('https://api.api-ninjas.com/v1/exercises?muscle='+this.name,{headers:headers}).
+    subscribe(data=>{console.log(data)});
     
   }
 
@@ -67,8 +78,6 @@ export class Tab2Page {
       this.message = `Hello, ${ev.detail.data}!`;
     }
   }
-
-
   async handleChange(e: any) {
     console.log( e.detail.value)
     this.date = e.detail.value
@@ -78,18 +87,40 @@ export class Tab2Page {
     
   }
 
+  async clear_day(){
+    const formattedDate = format(parseISO(this.date), 'MMM d, yyyy');
+    await this.storage.remove(formattedDate)
+    this.day_schedule = []
+  }
+  
+
 
   
 }
 
-class event{
+export class event{
+  //use this to store events n stuff ( i dunno what we need tho)
   event_name: string = ""
-  time: string = ""
+  start_time: string = ""
+  end_time: string = ""
 
-  constructor(en: string,t: string){
+  constructor(en: string,st: string,et: string){
     this.event_name = en
-    this.time = t
+    this.start_time = st
+    this.end_time = et
+    
   }
-
 }
+
+
+
+
+
+
+
+
+
+
+
+
 

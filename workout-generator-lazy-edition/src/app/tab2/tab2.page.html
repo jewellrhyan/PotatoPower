@@ -7,7 +7,7 @@
  
   <ion-datetime [showDefaultButtons]="true" presentation = "date"(ionChange)="handleChange($event)" (click)="datetime.confirm()" #datetime>
     <ion-buttons slot="buttons">
-      <ion-button id = "open-modal"color="primary" (click)="datetime.confirm()">Add Event</ion-button>
+      <ion-button id = "open-modal"color="primary" (click)="datetime.confirm()">Get Workout</ion-button>
       <ion-button color="primary" (click)="clear_day()">Clear day</ion-button>
     </ion-buttons>
     
@@ -28,23 +28,42 @@
       </ion-header>
       <ion-content class="ion-padding">
         <ion-item>
-          <ion-label position="stacked">Enter muscle group</ion-label>
-          <ion-input type="text" placeholder="Description" [(ngModel)]="name"></ion-input>
-          <ion-label position="stacked">Enter start time of activity</ion-label>
-          <ion-input type="time" placeholder="datetime-local" [(ngModel)]="starttime" ></ion-input>
-
-          <ion-label position="stacked">Enter end time of activity</ion-label>
-          <ion-input type="time" placeholder="datetime-local" [(ngModel)]="endtime" ></ion-input>
-
-          <ion-select placeholder="Do you have access to equipment at this time?">
-            <ion-select-option value="Yes">Yes</ion-select-option>
-            <ion-select-option value="No">No</ion-select-option>
+          <ion-label position="stacked">Any muscle group you'd like to focus on?</ion-label>
+          <ion-select (ionChange)="muscleSelect($event)" >
+            <ion-select-option value=0>None</ion-select-option>
+            <ion-select-option value="abdominals">abdominals</ion-select-option>
+            <ion-select-option value ="abductors">abductors</ion-select-option>
+            <ion-select-option value="adductors">adductors</ion-select-option>
+            <ion-select-option value="biceps">biceps</ion-select-option>
+            <ion-select-option value="calves">calves</ion-select-option>
+            <ion-select-option value="chest">chest</ion-select-option>
+            <ion-select-option value="forearms">forearms</ion-select-option>
+            <ion-select-option value="glutes">glutes</ion-select-option>
+            <ion-select-option value="hamstrings">hamstrings</ion-select-option>
+            <ion-select-option value="lats">lats</ion-select-option>
+            <ion-select-option value="lower_back">lower_back</ion-select-option>
+            <ion-select-option value="middle_back">middle_back</ion-select-option>
+            <ion-select-option value="neck">neck</ion-select-option>
+            <ion-select-option value="quadriceps">quadriceps</ion-select-option>
+            <ion-select-option value="traps">traps</ion-select-option>
+            <ion-select-option value="triceps">triceps</ion-select-option>
           </ion-select>
-          <ion-label position="stacked">How strenous is this activity?</ion-label>
-          <ion-select>
-            <ion-select-option value=0>Low</ion-select-option>
-            <ion-select-option value=1>Medium</ion-select-option>
-            <ion-select-option value=2>High</ion-select-option>
+          
+
+          <ion-label position="stacked">Any type of exercise you'd like to focus on?</ion-label>
+          <ion-select (ionChange)="typeSelect($event)" >
+            <ion-select-option value=0>Cardio</ion-select-option>
+            <ion-select-option value=1>Strength</ion-select-option>
+            <ion-select-option value=2>Flexability</ion-select-option>
+            <ion-select-option value=3>None</ion-select-option>
+          </ion-select>
+          <ion-label position="stacked">How are you feeling?</ion-label>
+          <ion-select (ionChange)="Moodselect($event)">
+            <ion-select-option value=0>Tired</ion-select-option> 
+            <ion-select-option value=1>Stressed</ion-select-option>
+            <ion-select-option value=1>Normal</ion-select-option>
+            <ion-select-option value=3>Energetic</ion-select-option>
+            <ion-select-option value=4>Annoyed</ion-select-option>
             
           </ion-select>
         </ion-item>
@@ -53,27 +72,40 @@
   </ion-modal>
 
   <ion-card>
-    <ion-card-header>
-      <ion-card-title>Card Title</ion-card-title>
-      <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
-  </ion-card-header>
+    
 
   <ion-card-content>
-    Here's a small text description for the card content. Nothing more, nothing less.
+    Here's todays planned workout!
   </ion-card-content>
   </ion-card>
+  <h1 id="prog">  Current progress {{progress}}/{{com}}</h1>
+  <ion-progress-bar id="stat" [value]= "progress"[buffer]="progress" ></ion-progress-bar>
 
   <ion-list *ngFor="let user of day_schedule; let i = index">
     <ion-card>
       <ion-card-header>
-        <ion-card-title>{{user['event_name']}}</ion-card-title>
+        <ion-card-title>{{user['name']}}</ion-card-title>
         <ion-card-subtitle>{{user['start_time']}} to {{user['end_time']}}</ion-card-subtitle>
     </ion-card-header>
   
     <ion-card-content>
-      {{user['start_time']}}
+      kop
     </ion-card-content>
     </ion-card>
+    <ion-fab class="fab" slot="fixed" vertical="bottom" horizontal="end">
+      <ion-fab-button>
+        <ion-icon name="chevron-forward-circle"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-list side="start">
+        <ion-fab-button (click)="finish_exercise(user)">
+          <ion-icon name="checkmark-outline"></ion-icon>
+        </ion-fab-button>
+        <ion-fab-button (click)="skip_exercise(user)">
+          <ion-icon name="close-outline"></ion-icon>
+        </ion-fab-button>
+        
+      </ion-fab-list>
+    </ion-fab>
    </ion-list>
   
 </ion-content>

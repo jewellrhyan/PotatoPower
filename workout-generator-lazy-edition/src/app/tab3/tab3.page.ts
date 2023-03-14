@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-tab3',
@@ -6,7 +7,11 @@ import { Component } from '@angular/core';
   styleUrls: ['tab3.page.scss']
 })
 export class Tab3Page {
+  
 
-  constructor() {}
+  constructor(public navCtrl: NavController) {}
 
+  signOut(){
+    this.navCtrl.navigateForward('login');
+  }
 }

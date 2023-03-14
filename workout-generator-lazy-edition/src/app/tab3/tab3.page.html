@@ -1,10 +1,4 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Tab 3
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
+
 
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
@@ -12,6 +6,19 @@
       <ion-title size="large">Tab 3</ion-title>
     </ion-toolbar>
   </ion-header>
+  <div class="container">
+    
+    <img src="assets/bubble.png" id = "bub" frameBorder="0">
+    <ion-label class="talk">Don't give up!</ion-label>
+    <img src="assets/spud.gif" width="500"  height="400" frameBorder="0" class="pot" />
+    
+  </div>
+  <div class="update">
+  <ion-list>
+    <ion-button  position="stacked"(click)="signOut()" id="logout">
+    Update Profile
+    </ion-button> 
+  </ion-list>
+</div>
 
-  <app-explore-container name="Tab 3 page"></app-explore-container>
 </ion-content>

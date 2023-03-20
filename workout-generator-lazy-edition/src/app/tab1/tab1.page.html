@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Tab 1
+      Potato Power
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -13,14 +13,68 @@
     LogIn with Google
   </ion-button>
 
-  <ion-item *ngIf="user">
-    <ion-avatar slot="start">
+  <div class = "welcome-slot">
+    <ion-avatar slot="start" *ngIf="user">
       <img [src]="user.imageUrl" />
     </ion-avatar>
-    <ion-label>
-      {{user.givenName }} {{ user.familyName}}
-      <p>{{ user.email }}</p>
-    </ion-label>
-  </ion-item>
-  <app-explore-container name="Tab 1 page"></app-explore-container>
+    <ion-label class="ion-text-wrap">Welcome {{user.givenName}}!</ion-label>
+  </div>
+
+  
+
+  <div class="horizontal-cards">
+
+    <ion-card color="light">
+      <ion-card-header>
+        <ion-card-title>
+          Heart Rate
+        </ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        insert data here
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card color="light">
+      <ion-card-header>
+        <ion-card-title>
+          Steps Count
+        </ion-card-title>
+      </ion-card-header>
+      
+      <ion-card-content>
+        insert data here
+      </ion-card-content>
+    </ion-card>
+  </div> 
+
+  <div class="horizontal-cards">
+
+    <ion-card color="light">
+      <ion-card-header>
+        <ion-card-title>
+          Basal Energy Burned
+        </ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        insert data here
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card color="light">
+      <ion-card-header>
+        <ion-card-title>
+          Distance Covered
+        </ion-card-title>
+      </ion-card-header>
+      
+      <ion-card-content>
+        insert data here
+      </ion-card-content>
+    </ion-card>
+  </div> 
+
+
 </ion-content>

@@ -10,8 +10,22 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-  }
-
-#bub{
-    
 }
+
+.horizontal-cards {
+  ion-card {
+    display: inline-block;
+    width: 120px;
+    height: 165px
+  }
+}
+
+.welcome-slot {
+  ion-avatar {
+    height: 50px;
+    width: 50px;
+  }
+}
+
+
+

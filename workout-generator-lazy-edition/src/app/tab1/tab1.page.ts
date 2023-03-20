@@ -1,6 +1,10 @@
 import { Component } from '@angular/core';
 import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
 import { isPlatform } from '@ionic/angular';
+import * as fs from "fs";
+import * as path from "path";
+import { parse } from 'csv-parse';
+
 
 @Component({
   selector: 'app-tab1',
@@ -9,7 +13,6 @@ import { isPlatform } from '@ionic/angular';
 })
 export class Tab1Page {
   user: any = null;
-  apple = null;
 
   constructor() {
     if (!isPlatform('capacitor')) {

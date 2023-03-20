@@ -8,9 +8,10 @@ import { Storage } from '@ionic/storage-angular';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClient, HttpClientModule, HttpHeaders } from '@angular/common/http';
 import { Preferences } from '@capacitor/preferences';
+import { LoadingController } from '@ionic/angular';
 
-import {event, userselections} from './reco';
-import { UserProfile } from '../login/login.page';
+import {event, userselections,BigBrain,exercise} from './reco';
+import { UserProfile,add_ex_skipped,add_ex_done } from '../login/login.page';
 
 
 @Component({
@@ -33,21 +34,25 @@ export class Tab2Page {
   day_schedule = []
   progress = .76;
   com = 100;
-  currentUser: any;
+  currentUser: UserProfile = new UserProfile();
   event_selection: userselections = new userselections()
-  
+  recommender: any 
+ 
   
 
-  constructor(private storage: Storage,private http: HttpClient) {
-    this.currentUser = null;
+  constructor(private storage: Storage,private http: HttpClient,private loadingCtrl: LoadingController) {
+    
+   
   }
 
   async ngOnInit() {
     // If using a custom driver:
     // await this.storage.defineDriver(MyCustomDriver)
-
+ 
     await this.storage.create();
     this.currentUser = await this.storage.get("User");
+    this.recommender =  new BigBrain(this.currentUser,this.http)
+    
   }
 
   cancel() {
@@ -59,15 +64,23 @@ export class Tab2Page {
     const formattedDate = format(parseISO(this.date), 'MMM d, yyyy');
     
     
+    const loading = await this.loadingCtrl.create({
+      message: 'Getting your workout...'
+    })
+    loading.present()
     
-    
-    let headers = new HttpHeaders({'X-Api-Key': 'bITnT64Du69uoqnCVVs4Pw==Tlcq3HrHFPA3ZUy5'});
-    this.http.get<any>('https://api.api-ninjas.com/v1/exercises',{headers:headers}).
-    subscribe(data=>{this.day_schedule=data,this.com=data.length,this.storage.set(formattedDate,this.day_schedule),console.log(data)});
+    // let headers = new HttpHeaders({'X-Api-Key': 'bITnT64Du69uoqnCVVs4Pw==Tlcq3HrHFPA3ZUy5'});
+    // this.http.get<any>('https://api.api-ninjas.com/v1/exercises',{headers:headers}).
+    // subscribe(data=>{this.day_schedule=data,this.com=data.length,this.storage.set(formattedDate,this.day_schedule),console.log(data)});
 
     
-    console.log(this.storage.get("User"))
-    
+    //console.log(this.storage.get("User"))
+    this.recommender.set_info(this.event_selection)
+    this.recommender.user_update(this.currentUser)
+    this.day_schedule = await this.recommender.generate()
+    console.log("final schedule is: "+ this.day_schedule)
+    this.storage.set(formattedDate,this.day_schedule)
+    loading.dismiss()
     
 
     // let headers = new HttpHeaders({'X-Api-Key': 'bITnT64Du69uoqnCVVs4Pw==Tlcq3HrHFPA3ZUy5'});
@@ -83,7 +96,7 @@ export class Tab2Page {
   }
 
   typeSelect(event: any){
-    var choice:any = event.detail.value
+    var choice:number = event.detail.value
     this.event_selection.exeType = choice
 
   }
@@ -122,21 +135,30 @@ export class Tab2Page {
     this.day_schedule = []
   }
   
-  async finish_exercise(exercise: never){
+  async finish_exercise(exer: never){
     console.log('done')
-    let index = this.day_schedule.indexOf(exercise)
+    let index = this.day_schedule.indexOf(exer)
+    let ex: exercise = this.day_schedule[index]
     //this.currentUser.exercises_done.push(this.day_schedule[index]) // add exercise to ones fnished
     this.day_schedule.splice(index,1); // update exercise list for that day to not include finished exercise
     await this.storage.set(this.formDate,this.day_schedule)
+
+    
+    this.currentUser.exercises_done = add_ex_done(this.currentUser.exercises_done,ex.name,ex.mood)
+    console.log("stufffff "+this.currentUser.exercises_done)
+    
+
     
   }
 
-  async skip_exercise(exercise: never){
+  async skip_exercise(exercise: never) {
     console.log('skip')
     let index = this.day_schedule.indexOf(exercise)
+    let ex: exercise = this.day_schedule[index]
     //this.currentUser.exercises_skipped.push(this.day_schedule[index]) // add exercise to ones fnished
     this.day_schedule.splice(index,1);
     await this.storage.set(this.formDate,this.day_schedule)
+    this.currentUser.exercises_skipped = add_ex_skipped(this.currentUser.exercises_skipped,ex.name,ex.mood)
     
   }
 

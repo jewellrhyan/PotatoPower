@@ -1,14 +1,26 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Tab 1
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
 
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      
-      <ion-title size="large" >Tab 1</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content [fullscreen]="true" class="ion-margin ion-padding">
+  <ion-button expand="block" (click)="signIn()" color="danger" *ngIf="!user">
+    <ion-icon slot="start" name="logo-google"></ion-icon>
+    LogIn with Google
+  </ion-button>
 
+  <ion-item *ngIf="user">
+    <ion-avatar slot="start">
+      <img [src]="user.imageUrl" />
+    </ion-avatar>
+    <ion-label>
+      {{user.givenName }} {{ user.familyName}}
+      <p>{{ user.email }}</p>
+    </ion-label>
+  </ion-item>
   <app-explore-container name="Tab 1 page"></app-explore-container>
-  
-  
 </ion-content>

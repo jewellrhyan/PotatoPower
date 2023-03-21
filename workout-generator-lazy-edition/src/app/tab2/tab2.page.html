@@ -4,7 +4,7 @@
   <ion-header collapse="condense">
 
   </ion-header>
- 
+  <br>
   <ion-datetime [showDefaultButtons]="true" presentation = "date"(ionChange)="handleChange($event)" (click)="datetime.confirm()" #datetime>
     <ion-buttons slot="buttons">
       <ion-button id = "open-modal"color="primary" (click)="datetime.confirm()">Get Workout</ion-button>
@@ -29,7 +29,7 @@
       <ion-content class="ion-padding">
         <ion-item>
           <ion-label position="stacked">Any muscle group you'd like to focus on?</ion-label>
-          <ion-select (ionChange)="muscleSelect($event)" >
+          <ion-select interface="action-sheet" (ionChange)="muscleSelect($event)" >
             <ion-select-option value=0>None</ion-select-option>
             <ion-select-option value="abdominals">abdominals</ion-select-option>
             <ion-select-option value ="abductors">abductors</ion-select-option>
@@ -41,8 +41,8 @@
             <ion-select-option value="glutes">glutes</ion-select-option>
             <ion-select-option value="hamstrings">hamstrings</ion-select-option>
             <ion-select-option value="lats">lats</ion-select-option>
-            <ion-select-option value="lower_back">lower_back</ion-select-option>
-            <ion-select-option value="middle_back">middle_back</ion-select-option>
+            <ion-select-option value="lower_back">lower back</ion-select-option>
+            <ion-select-option value="middle_back">middle back</ion-select-option>
             <ion-select-option value="neck">neck</ion-select-option>
             <ion-select-option value="quadriceps">quadriceps</ion-select-option>
             <ion-select-option value="traps">traps</ion-select-option>
@@ -51,14 +51,14 @@
           
 
           <ion-label position="stacked">Any type of exercise you'd like to focus on?</ion-label>
-          <ion-select (ionChange)="typeSelect($event)" >
+          <ion-select  interface="action-sheet" (ionChange)="typeSelect($event)" >
             <ion-select-option value=0>Cardio</ion-select-option>
             <ion-select-option value=1>Strength</ion-select-option>
             <ion-select-option value=2>Flexability</ion-select-option>
             <ion-select-option value=-1>None</ion-select-option>
           </ion-select>
           <ion-label position="stacked">How are you feeling?</ion-label>
-          <ion-select (ionChange)="Moodselect($event)">
+          <ion-select interface="action-sheet" (ionChange)="Moodselect($event)">
             <ion-select-option value=0>Tired</ion-select-option> 
             <ion-select-option value=1>Stressed</ion-select-option>
             <ion-select-option value=2>Energetic</ion-select-option>
@@ -77,7 +77,7 @@
     Here's todays planned workout!
   </ion-card-content>
   </ion-card>
-  <h1 id="prog">  Current progress {{progress}}/{{com}}</h1>
+  <h1 id="prog">  Current progress {{progressFormated}}/{{com}}</h1>
   <ion-progress-bar id="stat" [value]= "progress"[buffer]="progress" ></ion-progress-bar>
 
   <ion-list *ngFor="let user of day_schedule; let i = index">

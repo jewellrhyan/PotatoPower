@@ -152,7 +152,7 @@ export class BigBrain{
       let responce = null
       
       let exercises_list: exercise[] = []
-      let offset = Math.floor(Math.random()*4)*10
+      let offset = Math.floor(Math.random()*4)*10 //api only gets 10 exrcises at a time so add this to get some variety
       var offStr = offset.toString()
       for(const element of this.muscFocus){ //get exercises based on muscle groups requested
         console.log("muscle")
@@ -166,8 +166,11 @@ export class BigBrain{
           responce = await fetch('https://yoga-api-nzy4.onrender.com/v1/poses/?level='+this.diff_string)
           exercises_list = exercises_list.concat(await responce.json().then((data) => this.formatYoga(data)))
         }
-        responce = await fetch('https://api.api-ninjas.com/v1/exercises?type='+element+'&difficulty='+this.diff_string+'&offset='+offStr,{headers:{'X-Api-Key': 'bITnT64Du69uoqnCVVs4Pw==Tlcq3HrHFPA3ZUy5'}})
+        else{
+          responce = await fetch('https://api.api-ninjas.com/v1/exercises?type='+element+'&difficulty='+this.diff_string+'&offset='+offStr,{headers:{'X-Api-Key': 'bITnT64Du69uoqnCVVs4Pw==Tlcq3HrHFPA3ZUy5'}})
         exercises_list = exercises_list.concat(await responce.json().then((data) => this.formatExercise(data)))
+        }
+        
       }
       
       console.log("got it" )
@@ -209,7 +212,7 @@ export class BigBrain{
         var x:number = 0
         var y :number = 0
         if(good_index != -1){
-          var ex1: number[]  = this.user.exercises_done.get(ex_done[good_index])! //grab most similar exercise
+          var ex1: number[]  = this.user.exercises_done.get(ex_done[good_index])! //grab most similar exercise and its array [0 0 0]
           x = ex1[this.info.mood] // get score of current mood
         }
         if(bad_index != -1){
@@ -296,8 +299,15 @@ export class BigBrain{
     formatExercise(exList:any){
       var list: exercise[] = []
       for(const element of exList){
+        
         var move = new exercise(element.name,element.instructions,element.difficulty,this.info.mood)
-        list.push(move)
+        if(list.includes(move)){ // if it gets a repeat exercise get annother one
+          console.log("repeat")
+        }
+        else{
+          list.push(move)
+        }
+        
       }
       return list
     }
@@ -306,7 +316,12 @@ export class BigBrain{
       var list: exercise[] = []
       for(const element of exList.poses){
         var move = new exercise(element.english_name,element.pose_description,exList.difficulty,this.info.mood)
-        list.push(move)
+        if(list.includes(move)){ // if it gets a repeat exercise get annother one
+          console.log("repeat")
+        }
+        else{
+          list.push(move)
+        }
       }
       
       return list.slice(0,20)

@@ -3,6 +3,9 @@ import { NavController } from '@ionic/angular';
 import { Tab1Page } from '../tab1/tab1.page';
 import { Storage } from '@ionic/storage-angular';
 
+import { RangeCustomEvent } from '@ionic/angular';
+import { RangeValue } from '@ionic/core';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
@@ -13,6 +16,8 @@ export class LoginPage implements OnInit {
   Tab: Tab1Page;
   exp: number=0;
   user: UserProfile;
+  lastEmittedValue: number = 0;
+  name: any;
 
   constructor(private storage: Storage, public navCtrl: NavController) { 
     this.user = new UserProfile();
@@ -25,6 +30,8 @@ export class LoginPage implements OnInit {
 
   signIn() {
       // If you app has Tabs, set root to TabsPage
+      this.user.age = this.lastEmittedValue
+      this.user.name = this.name
       this.storage.set("User",this.user)
       this.navCtrl.navigateForward('tabs');
       
@@ -32,9 +39,19 @@ export class LoginPage implements OnInit {
 
   Explevel(event: any){
     this.exp=event.detail.value;
+    this.user.experience = this.exp
     console.log(this.exp)
   }
 
+  ageGet(ev: Event) {
+    this.lastEmittedValue = Number((ev as RangeCustomEvent).detail.value);
+    console.log(this.lastEmittedValue)
+  }
+
+  nameGet(ev:any){
+    this.name = ev.detail.value;
+    console.log(this.name)
+  }
 
 }
 

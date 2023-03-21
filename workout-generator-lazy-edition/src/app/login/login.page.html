@@ -5,10 +5,15 @@
 </ion-header>
 
 <ion-content>
+  
+    <ion-item>
+      <ion-label>Name</ion-label>
+      <ion-input (ionChange)="nameGet($event)"placeholder="Enter Name"></ion-input>
+    </ion-item>
   <ion-label>How old are you?</ion-label>
-  <ion-range>
+  <ion-range (ionChange)="ageGet($event)">
     <ion-label slot="start">0</ion-label>
-    <ion-label slot="end">100+</ion-label>
+    <ion-label slot="end">100</ion-label>
   </ion-range>
   
   <ion-label>How active do you consider yourself?</ion-label>
@@ -23,4 +28,5 @@
   <ion-button ion-button color="secondary" (click)="signIn()">
     Done
   </ion-button> 
+ 
 </ion-content>

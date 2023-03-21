@@ -32,11 +32,13 @@ export class Tab2Page {
   date: string = "";
   formDate: string =""
   day_schedule = []
-  progress = .76;
-  com = 100;
+  progress = 0;
+  progressFormated = 0;
+  com = 5;
   currentUser: UserProfile = new UserProfile();
   event_selection: userselections = new userselections()
   recommender: any 
+
  
   
 
@@ -65,13 +67,12 @@ export class Tab2Page {
     
     
     const loading = await this.loadingCtrl.create({
-      message: 'Getting your workout...'
+      message: '<ion-img src="/assets/spud.gif" alt="loading..."></ion-img>' ,
+      
     })
     loading.present()
     
-    // let headers = new HttpHeaders({'X-Api-Key': 'bITnT64Du69uoqnCVVs4Pw==Tlcq3HrHFPA3ZUy5'});
-    // this.http.get<any>('https://api.api-ninjas.com/v1/exercises',{headers:headers}).
-    // subscribe(data=>{this.day_schedule=data,this.com=data.length,this.storage.set(formattedDate,this.day_schedule),console.log(data)});
+   
 
     
     //console.log(this.storage.get("User"))
@@ -83,9 +84,7 @@ export class Tab2Page {
     loading.dismiss()
     
 
-    // let headers = new HttpHeaders({'X-Api-Key': 'bITnT64Du69uoqnCVVs4Pw==Tlcq3HrHFPA3ZUy5'});
-    // this.http.get<any>('https://yoga-api-nzy4.onrender.com/v1/categories').
-    // subscribe(data=>{console.log(data)});
+    
     
   }
 
@@ -123,7 +122,9 @@ export class Tab2Page {
     let stuff2 = await this.storage.get(formattedDate)
     this.day_schedule = stuff2
     if(this.day_schedule !=null ){
-      this.com=this.day_schedule.length
+      this.com=5
+      this.progress = (5-this.day_schedule.length)*.2
+      this.progressFormated = 5-this.day_schedule.length
     }
     
     
@@ -133,6 +134,8 @@ export class Tab2Page {
     const formattedDate = format(parseISO(this.date), 'MMM d, yyyy');
     await this.storage.remove(formattedDate)
     this.day_schedule = []
+    this.progress = 0  
+    this.progressFormated = 0
   }
   
   async finish_exercise(exer: never){
@@ -146,7 +149,8 @@ export class Tab2Page {
     
     this.currentUser.exercises_done = add_ex_done(this.currentUser.exercises_done,ex.name,ex.mood)
     console.log("stufffff "+this.currentUser.exercises_done)
-    
+    this.progress = (5-this.day_schedule.length)*.2
+    this.progressFormated = 5-this.day_schedule.length
 
     
   }
@@ -159,7 +163,8 @@ export class Tab2Page {
     this.day_schedule.splice(index,1);
     await this.storage.set(this.formDate,this.day_schedule)
     this.currentUser.exercises_skipped = add_ex_skipped(this.currentUser.exercises_skipped,ex.name,ex.mood)
-    
+    this.progress = (5-this.day_schedule.length)*.2
+    this.progressFormated = 5-this.day_schedule.length
   }
 
 

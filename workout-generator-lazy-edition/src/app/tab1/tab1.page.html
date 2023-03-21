@@ -1,17 +1,80 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Tab 1
+      Potato Power
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 1</ion-title>
-    </ion-toolbar>
-  </ion-header>
 
-  <app-explore-container name="Tab 1 page"></app-explore-container>
+<ion-content [fullscreen]="true" class="ion-margin ion-padding">
+  <ion-button expand="block" (click)="signIn()" color="danger" *ngIf="!user">
+    <ion-icon slot="start" name="logo-google"></ion-icon>
+    LogIn with Google
+  </ion-button>
+
+  <div class = "welcome-slot">
+    <ion-avatar slot="start" *ngIf="user">
+      <img [src]="user.imageUrl" />
+    </ion-avatar>
+    <ion-label class="ion-text-wrap">Welcome {{user.givenName}}!</ion-label>
+  </div>
+
+  
+
+  <div class="horizontal-cards">
+
+    <ion-card color="light">
+      <ion-card-header>
+        <ion-card-title>
+          Heart Rate
+        </ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        22 BPM
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card color="light">
+      <ion-card-header>
+        <ion-card-title>
+          Steps Count
+        </ion-card-title>
+      </ion-card-header>
+      
+      <ion-card-content>
+         62
+      </ion-card-content>
+    </ion-card>
+  </div> 
+
+  <div class="horizontal-cards">
+
+    <ion-card color="light">
+      <ion-card-header>
+        <ion-card-title>
+          Basal Energy Burned
+        </ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        60.51
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card color="light">
+      <ion-card-header>
+        <ion-card-title>
+          Distance
+        </ion-card-title>
+      </ion-card-header>
+      
+      <ion-card-content>
+        .20 mi
+      </ion-card-content>
+    </ion-card>
+  </div> 
+
+
 </ion-content>

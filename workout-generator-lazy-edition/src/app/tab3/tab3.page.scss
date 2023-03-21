@@ -1,0 +1,31 @@
+.pot{
+    position:absolute;
+   left:30px;
+   top:100px;
+   z-index:-1;
+    
+}
+.centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .container{
+    text-align:center;
+}
+
+.update{
+    position: fixed;
+    left: 0;
+    bottom: 10px;
+    right: 0;
+}
+
+.talk{
+    position: absolute;
+            top: 17px;
+            left: 20px;
+    font-family: cursive;
+}

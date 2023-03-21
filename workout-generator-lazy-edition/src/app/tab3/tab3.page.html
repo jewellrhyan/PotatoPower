@@ -1,17 +1,39 @@
-<ion-header [translucent]="true">
+<ion-header [translucent]="true" >
   <ion-toolbar>
-    <ion-title>
-      Tab 3
-    </ion-title>
+      <h2>More Exercises</h2>
+  </ion-toolbar>
+  <ion-toolbar>
+      <ion-searchbar  [debounce]="1000" (ionChange)="handleChange($event)"></ion-searchbar>
   </ion-toolbar>
 </ion-header>
-
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 3</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <app-explore-container name="Tab 3 page"></app-explore-container>
+<ion-content>
+  <ion-list>
+      <ion-item *ngFor="let k of search_results" >
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>{{k['name']}}</ion-card-title>
+            <ion-card-subtitle></ion-card-subtitle>
+        </ion-card-header>
+      
+        <ion-card-content>
+          <ion-accordion-group>
+          <ion-accordion value="first">
+            <ion-item slot="header" color="light">
+              <ion-label>Instructions</ion-label>
+            </ion-item>
+            <div class="ion-padding" slot="content">
+              <img src="{{k['gifUrl']}}" alt="ko" />
+            </div>
+          </ion-accordion>
+        </ion-accordion-group>
+          
+        </ion-card-content>
+        </ion-card>
+      </ion-item>
+  </ion-list>
+  <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
+      <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>
+
+

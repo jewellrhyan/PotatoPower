@@ -1,7 +1,8 @@
 {
   "name": "Workout Generator (Lazy Edition)",
   "integrations": {
-    "capacitor": {}
+    "capacitor": {},
+    "cordova": {}
   },
   "type": "angular"
 }

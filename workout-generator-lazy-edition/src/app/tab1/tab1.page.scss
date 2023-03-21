@@ -1,0 +1,28 @@
+.pot{
+  position:absolute;
+ left:30px;
+ top:100px;
+ z-index:-1;
+  
+}
+.centered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.horizontal-cards {
+ion-card {
+  display: inline-block;
+  width: auto;
+  height: auto;
+}
+}
+
+.welcome-slot {
+ion-avatar {
+  height: 50px;
+  width: 50px;
+}
+}

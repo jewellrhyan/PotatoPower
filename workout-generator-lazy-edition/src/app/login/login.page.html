@@ -1,0 +1,32 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Let's get to know you!</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  
+    <ion-item>
+      <ion-label>Name</ion-label>
+      <ion-input (ionChange)="nameGet($event)"placeholder="Enter Name"></ion-input>
+    </ion-item>
+  <ion-label>How old are you?</ion-label>
+  <ion-range (ionChange)="ageGet($event)">
+    <ion-label slot="start">0</ion-label>
+    <ion-label slot="end">100</ion-label>
+  </ion-range>
+  
+  <ion-label>How active do you consider yourself?</ion-label>
+  <ion-select  (ionChange)="Explevel($event)" >
+            <ion-select-option value="0">I don't exercise</ion-select-option>
+            <ion-select-option value="1">I kind of exercise</ion-select-option>
+            <ion-select-option value="2">I exercise everyday</ion-select-option>
+          </ion-select>
+  
+
+
+  <ion-button ion-button color="secondary" (click)="signIn()">
+    Done
+  </ion-button> 
+ 
+</ion-content>
